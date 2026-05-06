@@ -33,6 +33,9 @@ dev = [
   "mypy>=1.10",
   "pre-commit>=3.7"
 ]
+search = [
+    "tavily-python>=0.5.0",
+]
 
 [project.scripts]
 malab = "multi_agent_research_lab.cli:app"
