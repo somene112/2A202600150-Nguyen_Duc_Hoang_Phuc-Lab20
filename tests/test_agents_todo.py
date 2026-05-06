@@ -1,4 +1,9 @@
-from multi_agent_research_lab.agents import AnalystAgent, ResearcherAgent, SupervisorAgent, WriterAgent
+from multi_agent_research_lab.agents import (
+    AnalystAgent,
+    ResearcherAgent,
+    SupervisorAgent,
+    WriterAgent,
+)
 from multi_agent_research_lab.core.schemas import ResearchQuery
 from multi_agent_research_lab.core.state import ResearchState
 from multi_agent_research_lab.graph.workflow import MultiAgentWorkflow

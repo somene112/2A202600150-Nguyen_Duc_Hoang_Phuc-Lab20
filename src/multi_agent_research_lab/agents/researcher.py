@@ -17,11 +17,15 @@ class ResearcherAgent(BaseAgent):
     def run(self, state: ResearchState) -> ResearchState:
         """Populate `state.sources` and `state.research_notes`."""
 
-        sources = self.search_client.search(state.request.query, max_results=state.request.max_sources)
+        sources = self.search_client.search(
+            state.request.query, max_results=state.request.max_sources
+        )
         state.sources = sources
 
         if not sources:
-            state.research_notes = "No sources were found. Continue with a cautious fallback answer."
+            state.research_notes = (
+                "No sources were found. Continue with a cautious fallback answer."
+            )
             state.errors.append("Researcher found no sources.")
         else:
             lines = ["Research notes:"]

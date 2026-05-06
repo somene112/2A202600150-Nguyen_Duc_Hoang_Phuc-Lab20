@@ -29,7 +29,9 @@ class CriticAgent(BaseAgent):
                 finding = "Citation check passed: all collected sources are referenced in the final answer."
 
         state.agent_results.append(
-            AgentResult(agent=AgentName.CRITIC, content=finding, metadata={"error_count": len(state.errors)})
+            AgentResult(
+                agent=AgentName.CRITIC, content=finding, metadata={"error_count": len(state.errors)}
+            )
         )
         state.add_trace_event("agent.critic.completed", {"finding": finding})
         return state

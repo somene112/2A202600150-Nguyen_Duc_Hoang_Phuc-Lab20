@@ -36,7 +36,9 @@ class SearchClient:
             except Exception as exc:  # pragma: no cover - external provider dependent
                 fallback_sources = self._local_search(query=query, max_results=max_results)
                 for source in fallback_sources:
-                    source.metadata["provider_fallback"] = f"Tavily failed: {exc.__class__.__name__}"
+                    source.metadata["provider_fallback"] = (
+                        f"Tavily failed: {exc.__class__.__name__}"
+                    )
                 return fallback_sources
 
         return self._local_search(query=query, max_results=max_results)
@@ -45,7 +47,7 @@ class SearchClient:
         """Search Tavily and map results into the lab SourceDocument schema."""
 
         tavily_module = importlib.import_module("tavily")
-        tavily_client_cls: Any = getattr(tavily_module, "TavilyClient")
+        tavily_client_cls: Any = tavily_module.TavilyClient
         tavily_client: Any = tavily_client_cls(api_key=api_key)
 
         response: dict[str, Any] = tavily_client.search(

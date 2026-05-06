@@ -98,11 +98,7 @@ class WriterAgent(BaseAgent):
         lines: list[str] = []
         for index, source in enumerate(state.sources, start=1):
             url = source.url or "no-url"
-            lines.append(
-                f"[S{index}] Title: {source.title}\n"
-                f"URL: {url}\n"
-                f"Snippet: {source.snippet}"
-            )
+            lines.append(f"[S{index}] Title: {source.title}\nURL: {url}\nSnippet: {source.snippet}")
         return "\n\n".join(lines)
 
     def _source_lines(self, state: ResearchState) -> list[str]:
@@ -135,7 +131,9 @@ class WriterAgent(BaseAgent):
             f"- {source.snippet} [S{index}]" for index, source in enumerate(state.sources, start=1)
         )
         if not evidence_summary:
-            evidence_summary = "- No external evidence was collected; treat this answer as low confidence."
+            evidence_summary = (
+                "- No external evidence was collected; treat this answer as low confidence."
+            )
 
         return "\n".join(
             [

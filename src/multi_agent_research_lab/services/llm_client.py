@@ -104,10 +104,10 @@ class LLMClient:
 
         try:
             langfuse_openai_module = importlib.import_module("langfuse.openai")
-            return getattr(langfuse_openai_module, "OpenAI")
+            return langfuse_openai_module.OpenAI
         except Exception:
             openai_module = importlib.import_module("openai")
-            return getattr(openai_module, "OpenAI")
+            return openai_module.OpenAI
 
     def _offline_complete(self, system_prompt: str, user_prompt: str) -> LLMResponse:
         merged = f"{system_prompt}\n{user_prompt}".strip()

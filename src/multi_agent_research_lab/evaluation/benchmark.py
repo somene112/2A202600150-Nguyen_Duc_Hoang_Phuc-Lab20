@@ -1,17 +1,18 @@
 """Benchmark helpers for single-agent vs multi-agent runs."""
 
 import os
+from collections.abc import Callable
 from time import perf_counter
-from typing import Callable
 
 from multi_agent_research_lab.core.schemas import BenchmarkMetrics
 from multi_agent_research_lab.core.state import ResearchState
 
-
 Runner = Callable[[str], ResearchState]
 
 
-def run_benchmark(run_name: str, query: str, runner: Runner) -> tuple[ResearchState, BenchmarkMetrics]:
+def run_benchmark(
+    run_name: str, query: str, runner: Runner
+) -> tuple[ResearchState, BenchmarkMetrics]:
     """Measure latency, heuristic quality, citation coverage, and errors."""
 
     started = perf_counter()
@@ -19,7 +20,9 @@ def run_benchmark(run_name: str, query: str, runner: Runner) -> tuple[ResearchSt
     latency = perf_counter() - started
 
     final_answer = state.final_answer or ""
-    cited_sources = sum(1 for index, _source in enumerate(state.sources, start=1) if f"[S{index}]" in final_answer)
+    cited_sources = sum(
+        1 for index, _source in enumerate(state.sources, start=1) if f"[S{index}]" in final_answer
+    )
     citation_coverage = cited_sources / len(state.sources) if state.sources else 0.0
     quality_score = _heuristic_quality_score(state, citation_coverage)
     estimated_cost = _estimate_cost_usd(state)

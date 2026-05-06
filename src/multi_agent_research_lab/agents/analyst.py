@@ -49,7 +49,9 @@ class AnalystAgent(BaseAgent):
                 ]
             )
 
-            response = self.llm_client.complete(system_prompt=system_prompt, user_prompt=user_prompt)
+            response = self.llm_client.complete(
+                system_prompt=system_prompt, user_prompt=user_prompt
+            )
 
             # If provider fails, LLMClient returns the deterministic offline fallback.
             # For the lab, a structured local analysis is more useful than a generic fallback string.
@@ -114,7 +116,9 @@ class AnalystAgent(BaseAgent):
         for index, source in enumerate(state.sources, start=1):
             claim_lines.append(f"- Claim {index}: {source.snippet} [S{index}]")
             if source.metadata.get("score", 0) == 0:
-                risk_lines.append(f"- Source [S{index}] may be weak because it has no lexical match.")
+                risk_lines.append(
+                    f"- Source [S{index}] may be weak because it has no lexical match."
+                )
 
         if not risk_lines:
             risk_lines.append(

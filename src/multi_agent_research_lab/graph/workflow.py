@@ -9,7 +9,12 @@ from __future__ import annotations
 
 from time import perf_counter
 
-from multi_agent_research_lab.agents import AnalystAgent, ResearcherAgent, SupervisorAgent, WriterAgent
+from multi_agent_research_lab.agents import (
+    AnalystAgent,
+    ResearcherAgent,
+    SupervisorAgent,
+    WriterAgent,
+)
 from multi_agent_research_lab.agents.base import BaseAgent
 from multi_agent_research_lab.core.config import get_settings
 from multi_agent_research_lab.core.errors import AgentExecutionError
@@ -47,13 +52,17 @@ class MultiAgentWorkflow:
 
         settings = get_settings()
         started = perf_counter()
-        state.add_trace_event("workflow.started", {"query": state.request.query, "graph": self.build()})
+        state.add_trace_event(
+            "workflow.started", {"query": state.request.query, "graph": self.build()}
+        )
 
         while True:
             if perf_counter() - started > settings.timeout_seconds:
                 state.errors.append("Workflow timeout reached.")
                 if not state.final_answer:
-                    state.final_answer = "Workflow stopped because timeout was reached before a final answer."
+                    state.final_answer = (
+                        "Workflow stopped because timeout was reached before a final answer."
+                    )
                 break
 
             with trace_span("supervisor", {"iteration": state.iteration}) as supervisor_span:
@@ -79,7 +88,9 @@ class MultiAgentWorkflow:
                 elif route == "analyst" and not state.analysis_notes:
                     state.analysis_notes = "Analyst failed; using research notes directly."
                 elif route == "writer" and not state.final_answer:
-                    state.final_answer = state.analysis_notes or state.research_notes or "Writer failed."
+                    state.final_answer = (
+                        state.analysis_notes or state.research_notes or "Writer failed."
+                    )
                     break
 
         state.add_trace_event(
